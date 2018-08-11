@@ -1,0 +1,24 @@
+service:
+  name: Example Service
+  uri: /my/example/service
+  flow:
+    - validate:
+        value: $body.req
+        againstSchema: ./schemas/request.schema.json
+    - assign:
+        to: $requestBackend
+        valueFrom:
+          transform:
+            file: ./transform/to-request-backend.transformation.js
+            parameters:
+              - $body.req
+              - 1
+    - invokeSOAP:
+      headers:
+        mdw-cs-country: CL
+        mdw-cs-commerce: COM
+        mdw-cs-channel: Web
+      body: $requestBackend
+      response:
+        headers: $headersResponseBackend
+        body: $bodyResponseBackend
