@@ -1,5 +1,6 @@
 service:
   name: Example Service
+  type: http
   uri: /my/example/service
   flow:
     - validate:
@@ -13,12 +14,13 @@ service:
             parameters:
               - $body.req
               - 1
-    - invokeSOAP:
-      headers:
-        mdw-cs-country: CL
-        mdw-cs-commerce: COM
-        mdw-cs-channel: Web
-      body: $requestBackend
-      response:
-        headers: $headersResponseBackend
-        body: $bodyResponseBackend
+    - invoke:
+        service: ./example.backend.yml
+        header:
+          mdw-cs-country: CL
+          mdw-cs-commerce: COM
+          mdw-cs-channel: Web
+        body: $requestBackend
+        response:
+          header: $headersResponseBackend
+          body: $bodyResponseBackend

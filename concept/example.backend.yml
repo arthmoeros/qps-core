@@ -1,0 +1,5 @@
+backend:
+  content-type: application/json
+  endpoint-list:
+  - http://sample.backend/an/example/backend/service
+  timeout: 5000
